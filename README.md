@@ -33,3 +33,9 @@ To push your schema to the database, run the following command:
 ```bash
 npx prisma db push
 ```
+
+To format your schema, run the following command:
+
+```bash
+npx prisma format
+```
