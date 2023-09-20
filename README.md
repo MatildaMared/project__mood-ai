@@ -17,3 +17,19 @@ To connect to the planetscale database, run the following command:
 ```bash
 pscale connect <database name> <branch_name> --port <port number>
 ```
+
+---
+
+# Prisma
+
+To init prisma, run the following command:
+
+```bash
+npx prisma init
+```
+
+To push your schema to the database, run the following command:
+
+```bash
+npx prisma db push
+```
