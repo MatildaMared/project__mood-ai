@@ -39,3 +39,9 @@ To format your schema, run the following command:
 ```bash
 npx prisma format
 ```
+
+To open prisma GUI, run the following command:
+
+```bash
+npx prisma studio
+```
