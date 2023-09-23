@@ -40,9 +40,6 @@ async function EntryPage({ params }: { params: { id: string } }) {
     { name: "Negative", value: negative.toString() },
   ];
 
-  console.log("HELLOß");
-  console.log(entry?.analysis?.backgroundColor);
-
   return (
     <div className="h-full w-full grid grid-cols-3">
       <div className="col-span-2">
