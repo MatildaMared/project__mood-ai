@@ -1,6 +1,7 @@
 import Editor from "@/components/Editor";
 import { getUserByClerkId } from "@/utils/auth";
 import { prisma } from "@/utils/db";
+import { Analysis } from "@prisma/client";
 import React from "react";
 
 const getEntry = async (id: string) => {
@@ -12,6 +13,9 @@ const getEntry = async (id: string) => {
         id: id,
       },
     },
+    include: {
+      analysis: true,
+    },
   });
 
   return entry;
@@ -19,12 +23,25 @@ const getEntry = async (id: string) => {
 
 async function EntryPage({ params }: { params: { id: string } }) {
   const entry = await getEntry(params.id);
+  console.log(entry);
+  const {
+    mood,
+    summary,
+    textColor,
+    backgroundColor,
+    subject,
+    negative,
+    moodScore,
+  } = entry?.analysis as Analysis;
   const analysisData = [
-    { name: "Summary", value: "Summary text...." },
-    { name: "Subject", value: "Subject text...." },
-    { name: "Mood", value: "Mood text...." },
-    { name: "Negative", value: "Negative text...." },
+    { name: "Summary", value: summary },
+    { name: "Subject", value: subject },
+    { name: "Mood", value: mood },
+    { name: "Negative", value: negative.toString() },
   ];
+
+  console.log("HELLOß");
+  console.log(entry?.analysis?.backgroundColor);
 
   return (
     <div className="h-full w-full grid grid-cols-3">
@@ -32,8 +49,10 @@ async function EntryPage({ params }: { params: { id: string } }) {
         <Editor entry={entry!} />
       </div>
       <div className="border-l border-black/10">
-        <div className="bg-pink-300 px-6- py-10">
-          <h2 className="text-2xl">Analysis</h2>
+        <div className="px-6- py-10" style={{ backgroundColor }}>
+          <h2 className="text-2xl" style={{ color: textColor }}>
+            Analysis
+          </h2>
         </div>
         <div>
           <ul>

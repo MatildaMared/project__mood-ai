@@ -9,7 +9,9 @@ const parser = StructuredOutputParser.fromZodSchema(
     subject: z.string().describe("The subject of the journal entry."),
     summary: z
       .string()
-      .describe("A quick summary of the entire journal entry."),
+      .describe(
+        "A quick summary of the entire journal entry, max 200 characters."
+      ),
     mood: z
       .string()
       .describe("The mood of the person who wrote the journal entry."),
@@ -17,6 +19,11 @@ const parser = StructuredOutputParser.fromZodSchema(
       .boolean()
       .describe(
         "Is the journal entry negative? (i.e does it contain negative emotions?)."
+      ),
+    moodScore: z
+      .number()
+      .describe(
+        "A number between 0 and 20 that represents the mood of the journal entry. 0 represents an extremely negative mood, 10 represent a rather neutral mood and 20 represents an extremely positive mood."
       ),
     backgroundColor: z
       .string()
@@ -32,18 +39,15 @@ const parser = StructuredOutputParser.fromZodSchema(
 );
 
 const getPrompt = async (content: string) => {
-  console.log("Content", content);
   const formatInstructions = parser.getFormatInstructions();
-  console.log("formattedInstructions", formatInstructions);
   const prompt = new PromptTemplate({
     template:
-      "Analyze the following journal entry. Follow the instructions and format your response to match the format instructions, no matter what! \n{formatInstructions}\n{entry}",
+      "Analyze the following journal entry. Follow the instructions and format your response to match the format instructions, no matter what! The summary, subject and mood should be in the same language that the journal entry was written in. \n{formatInstructions}\n{entry}",
     inputVariables: ["entry"],
     partialVariables: { formatInstructions },
   });
 
   const input = await prompt.format({ entry: content });
-  console.log("input", input);
   return input;
 };
 
@@ -51,5 +55,10 @@ export const analyze = async (content: string) => {
   const input = await getPrompt(content);
   const model = new OpenAI({ temperature: 0, modelName: "gpt-3.5-turbo" });
   const result = await model.call(input);
-  console.log(result);
+
+  try {
+    return parser.parse(result);
+  } catch (err) {
+    console.log(err);
+  }
 };

@@ -1,6 +1,5 @@
 import EntryCard from "@/components/EntryCard";
 import NewEntryCard from "@/components/NewEntryCard";
-import { analyze } from "@/utils/ai";
 import { getUserByClerkId } from "@/utils/auth";
 import { prisma } from "@/utils/db";
 import Link from "next/link";
@@ -17,9 +16,6 @@ const getEntries = async () => {
     },
   });
 
-  analyze(
-    `Today was a really great day. I opened a few packs of pokemon cards and had a glass of red wine. We also watched the movie Geostorm.`
-  );
   return entries;
 };
 
