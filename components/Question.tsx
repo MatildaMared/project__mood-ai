@@ -5,17 +5,20 @@ import { useState } from "react";
 function Question() {
   const [value, setValue] = useState("");
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <input
         type="text"
         placeholder="Ask a question"
-        onChange={onChange}
+        onChange={handleChange}
         className="border border-black/10 px-4 py-2 text-lg rounded-lg mr-2 w-[500px] max-w-full"
       />
       <button
