@@ -11,6 +11,7 @@ import z from "zod";
 const parser = StructuredOutputParser.fromZodSchema(
   z.object({
     subject: z.string().describe("The subject of the journal entry."),
+    sentimentScore: z.number().describe("Sentiment of the text and rated on a scale from -10 to 10, where -10 is extremely negative, 0 is neutral, and 10 is extremely positive."),
     summary: z
       .string()
       .describe(
@@ -23,11 +24,6 @@ const parser = StructuredOutputParser.fromZodSchema(
       .boolean()
       .describe(
         "Is the journal entry negative? (i.e does it contain negative emotions?)."
-      ),
-    moodScore: z
-      .number()
-      .describe(
-        "A number between 0 and 20 that represents the mood of the journal entry. 0 represents an extremely negative mood, 10 represent a rather neutral mood and 20 represents an extremely positive mood."
       ),
     backgroundColor: z
       .string()
