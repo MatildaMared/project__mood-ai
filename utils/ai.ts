@@ -11,12 +11,14 @@ import z from "zod";
 const parser = StructuredOutputParser.fromZodSchema(
   z.object({
     subject: z.string().describe("The subject of the journal entry."),
-    sentimentScore: z.number().describe("Sentiment of the text and rated on a scale from -10 to 10, where -10 is extremely negative, 0 is neutral, and 10 is extremely positive."),
+    sentimentScore: z
+      .number()
+      .describe(
+        "Sentiment of the text and rated on a scale from -10 to 10, where -10 is extremely negative, 0 is neutral, and 10 is extremely positive."
+      ),
     summary: z
       .string()
-      .describe(
-        "A quick summary of the entire journal entry, max 200 characters."
-      ),
+      .describe("A SHORT summary of the entire journal entry."),
     mood: z
       .string()
       .describe("The mood of the person who wrote the journal entry."),
