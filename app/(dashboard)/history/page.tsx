@@ -26,9 +26,9 @@ async function HistoryPage() {
   console.log(analyses);
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full flex items-center justify-center flex-col">
       <div>{`Avg. Sentiment ${averageSentimentScore}`}</div>
-      <div className="w-full h-full">
+      <div className="w-2/3 h-96">
         <HistoryChart data={analyses} />
       </div>
     </div>
